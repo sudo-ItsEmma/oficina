@@ -49,4 +49,11 @@ class ProductoController extends Controller
         // retornar alerta
         return redirect()->route('productos.index')->with('success', 'Producto creado con éxito');
     }
+
+    // eliminacion de un producto
+    public function destroy(Producto $producto)
+    {
+        $producto->delete();
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
+    }
 }

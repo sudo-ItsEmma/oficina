@@ -40,9 +40,16 @@
                                             <button type="button" class="btn btn-sm btn-warning">
                                                 Editar
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-danger">
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                onclick="confirmarEliminacion({{ $p->id }})">
                                                 Eliminar
                                             </button>
+                                            <form id="delete-form-{{ $p->id }}"
+                                                action="{{ route('productos.destroy', $p->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
 
                                         </td>
                                     </tr>
@@ -56,6 +63,8 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+        // control de notificacion
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
@@ -64,5 +73,23 @@
                 timer: 3000
             });
         @endif
+
+        // confirmacion de eliminacion 
+        function confirmarEliminacion(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            })
+        }
     </script>
 @endsection
