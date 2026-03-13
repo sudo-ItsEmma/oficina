@@ -56,4 +56,29 @@ class ProductoController extends Controller
         $producto->delete();
         return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
     }
+
+    // vista para editar producto 
+    public function edit(Producto $producto)
+    {
+        return view('productos.edit', compact('producto'));
+    }
+
+    // actualizacion de producto
+    public function update(Request $request, Producto $producto)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        $producto->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'stock' => $request->stock,
+            'state' => $request->has('state') ? true : false,
+        ]);
+
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente');
+    }
 }

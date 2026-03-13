@@ -37,9 +37,8 @@
                                         </td>
 
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-warning">
-                                                Editar
-                                            </button>
+                                            <a href="{{ route('productos.edit', $p->id) }}"
+                                                class="btn btn-sm btn-warning">Editar</a>
                                             <button type="button" class="btn btn-sm btn-danger"
                                                 onclick="confirmarEliminacion({{ $p->id }})">
                                                 Eliminar
