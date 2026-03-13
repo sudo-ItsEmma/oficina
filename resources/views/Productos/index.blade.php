@@ -12,7 +12,43 @@
                         </a>
                     </div>
                     <div class="card-body">
+                        <table class="table table-hover shadow-sm bg-white">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-productos">
+                                @foreach($productos as $p)
+                                    <tr>
+                                        <td><strong>{{ $p->sku }}</strong></td>
+                                        <td>{{ $p->name }}</td>
+                                        <td>{{ $p->description }}</td>
+                                        <td>{{ $p->stock }}</td>
+                                        <td>
+                                            <span class="badge {{ $p->state ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $p->activo ? 'Activo' : 'Inactivo' }}
+                                            </span>
+                                        </td>
 
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-warning">
+                                                Editar
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger">
+                                                Eliminar
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

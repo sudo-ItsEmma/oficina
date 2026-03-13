@@ -12,7 +12,9 @@ class ProductoController extends Controller
     // muestra el index
     public function index()
     {
-        return view('productos.index');
+        // consultar productos
+        $productos = Producto::all();
+        return view('productos.index', compact('productos'));
     }
 
     // muestra la vista de creación
