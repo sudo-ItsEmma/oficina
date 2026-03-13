@@ -12,15 +12,19 @@ class ProductoController extends Controller
     // muestra el index
     public function index()
     {
-        // consultar productos
-        $productos = Producto::all();
+        // consultar productos por orden alfabetico del nombre
+        $productos = Producto::orderBy('name', 'asc')->get();
         return view('productos.index', compact('productos'));
     }
 
     // buscar artículo
     public function search(Request $request)
     {
+        // consultar productos por orden alfabetico del nombre
         $query = $request->get('query');
+        $productos = Producto::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('name', 'asc')
+            ->get();
         $productos = Producto::where('name', 'LIKE', "%{$query}%")->get();
 
         return response()->json($productos);
