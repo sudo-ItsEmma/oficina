@@ -83,6 +83,15 @@
             });
         @endif
 
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: "{{ session('error') }}",
+                confirmButtonColor: '#d33'
+            });
+        @endif
+
         // confirmacion de eliminacion 
         function confirmarEliminacion(id) {
             Swal.fire({
@@ -110,29 +119,31 @@
                     let html = '';
                     data.forEach(p => {
                         html += `
-                                        <tr>
-                                            <td><strong>${p.sku}</strong></td>
-                                            <td>${p.name}</td>
-                                            <td>${p.description}</td>
-                                            <td>${p.stock}</td>
-                                            <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
-                                            <td>
-                                                <a href="{{ route('productos.edit', $p->id) }}"
-                                                                    class="btn btn-sm btn-warning"><i
-                                                                        class="fa-solid fa-pen me-2"></i>Editar</a>
-                                                                <button type="button" class="btn btn-sm btn-danger"
-                                                                    onclick="confirmarEliminacion({{ $p->id }})">
-                                                                    <i class="fa-solid fa-trash me-1"></i> Eliminar
-                                                                </button>
-                                                <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                </form>
-                                            </td>
-                                        </tr>`;
+                                            <tr>
+                                                <td><strong>${p.sku}</strong></td>
+                                                <td>${p.name}</td>
+                                                <td>${p.description}</td>
+                                                <td>${p.stock}</td>
+                                                <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+                                                <td>
+                                                    <a href="{{ route('productos.edit', $p->id) }}"
+                                                                        class="btn btn-sm btn-warning"><i
+                                                                            class="fa-solid fa-pen me-2"></i>Editar</a>
+                                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                                        onclick="confirmarEliminacion({{ $p->id }})">
+                                                                        <i class="fa-solid fa-trash me-1"></i> Eliminar
+                                                                    </button>
+                                                    <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                    </form>
+                                                </td>
+                                            </tr>`;
                     });
                     document.getElementById('tabla-productos').innerHTML = html;
                 });
         });
+
+        
     </script>
 @endsection

@@ -35,35 +35,44 @@ class ProductoController extends Controller
     // almacenar el producto
     public function store(Request $request)
     {
-        // validacion los datos
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'stock' => 'required|integer|min:0'
-        ]);
+        try {
+            // validacion los datos
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'stock' => 'required|integer|min:0'
+            ]);
 
-        // generar el sku
-        $numbers = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-        $sku = "ART-{$numbers}-" . substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 2);
+            // generar el sku
+            $numbers = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $sku = "ART-{$numbers}-" . substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 2);
 
-        // crear el producto
-        Producto::create([
-            'sku' => $sku,
-            'name' => $request->name,
-            'description' => $request->description,
-            'stock' => $request->stock,
-            'state' => $request->has('state') ? true : false
-        ]);
+            // crear el producto
+            Producto::create([
+                'sku' => $sku,
+                'name' => $request->name,
+                'description' => $request->description,
+                'stock' => $request->stock,
+                'state' => $request->has('state') ? true : false
+            ]);
 
-        // retornar alerta
-        return redirect()->route('productos.index')->with('success', 'Producto creado con éxito');
+            // retornar alerta
+            return redirect()->route('productos.index')->with('success', 'Producto creado con éxito');
+        } catch (\Exception $e) {
+            // si algo falla
+            return redirect()->back()->with('error', 'Hubo un problema al guardar el producto. Intente de nuevo.');
+        }
     }
 
     // eliminacion de un producto
     public function destroy(Producto $producto)
     {
-        $producto->delete();
-        return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
+        try {
+            $producto->delete();
+            return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('productos.index')->with('error', 'No se pudo eliminar el producto.');
+        }
     }
 
     // vista para editar producto 
@@ -75,19 +84,26 @@ class ProductoController extends Controller
     // actualizacion de producto
     public function update(Request $request, Producto $producto)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'stock' => 'required|integer|min:0',
-        ]);
+        try {
+            // validar los datos
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'stock' => 'required|integer|min:0',
+            ]);
 
-        $producto->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'stock' => $request->stock,
-            'state' => $request->has('state') ? true : false,
-        ]);
+            // actualizar los datos
+            $producto->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'stock' => $request->stock,
+                'state' => $request->has('state') ? true : false,
+            ]);
 
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente');
+            return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente');
+        } catch (\Exception $e) {
+            // si algo falla
+            return redirect()->back()->with('error', 'Hubo un problema al actualizar el producto. Intente de nuevo.');
+        }
     }
 }
