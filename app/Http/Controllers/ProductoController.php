@@ -14,4 +14,10 @@ class ProductoController extends Controller
     {
         return view('productos.index');
     }
+
+    // muestra la vista de creación
+    public function create()
+    {
+        return view('productos.create');
+    }
 }
