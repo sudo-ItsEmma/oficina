@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
+
+    // datos rellenables desde la vista
+    protected $fillable = ['sku', 'name', 'description', 'stock', 'state'];
 }
