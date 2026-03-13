@@ -12,6 +12,10 @@
                         </a>
                     </div>
                     <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" id="buscador" class="form-control"
+                                placeholder="Buscar producto por nombre...">
+                        </div>
                         <table class="table table-hover shadow-sm bg-white">
                             <thead class="table-dark">
                                 <tr>
@@ -62,7 +66,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-
         // control de notificacion
         @if(session('success'))
             Swal.fire({
@@ -90,5 +93,34 @@
                 }
             })
         }
+
+        // busqueda por nombre
+        document.getElementById('buscador').addEventListener('keyup', (e) => {
+            let query = e.target.value;
+            fetch(`/buscar-productos?query=${query}`)
+                .then(res => res.json())
+                .then(data => {
+                    let html = '';
+                    data.forEach(p => {
+                        html += `
+                        <tr>
+                            <td><strong>${p.sku}</strong></td>
+                            <td>${p.name}</td>
+                            <td>${p.description}</td>
+                            <td>${p.stock}</td>
+                            <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+                            <td>
+                                <a href="/productos/${p.id}/edit" class="btn btn-sm btn-warning">Editar</a>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(${p.id})">Eliminar</button>
+                                <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                </form>
+                            </td>
+                        </tr>`;
+                    });
+                    document.getElementById('tabla-productos').innerHTML = html;
+                });
+        });
     </script>
 @endsection

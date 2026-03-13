@@ -17,6 +17,15 @@ class ProductoController extends Controller
         return view('productos.index', compact('productos'));
     }
 
+    // buscar artículo
+    public function search(Request $request)
+    {
+        $query = $request->get('query');
+        $productos = Producto::where('name', 'LIKE', "%{$query}%")->get();
+
+        return response()->json($productos);
+    }
+
     // muestra la vista de creación
     public function create()
     {

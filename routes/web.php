@@ -22,3 +22,5 @@ Route::resource('productos', ProductoController::class);
 
 Auth::routes();
 
+// busqueda en tiempo real
+Route::get('buscar-productos', [ProductoController::class, 'search'])->name('productos.buscar');
