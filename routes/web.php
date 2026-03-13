@@ -15,12 +15,12 @@ use App\Http\Controllers\ProductoController;
 |
 */
 
-Route::get('/', function () {
-    return view('productos.index');
-});
+Route::get('/', [ProductoController::class, 'index']);
+
 Route::resource('productos', ProductoController::class);
 
 Auth::routes();
 
-// busqueda en tiempo real
-Route::get('buscar-productos', [ProductoController::class, 'search'])->name('productos.buscar');
+// búsqueda en tiempo real
+Route::get('buscar-productos', [ProductoController::class, 'search'])
+    ->name('productos.buscar');
