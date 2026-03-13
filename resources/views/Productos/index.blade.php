@@ -17,50 +17,54 @@
                                 <input type="text" id="buscador" class="form-control"
                                     placeholder="Buscar producto por nombre...">
                             </div>
-                            <table class="table table-hover shadow-sm bg-white">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>SKU</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th>Stock</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabla-productos">
-                                    @foreach($productos as $p)
+                            <div class="table-responsive">
+
+
+                                <table class="table table-hover shadow-sm bg-white">
+                                    <thead class="table-dark">
                                         <tr>
-                                            <td><strong>{{ $p->sku }}</strong></td>
-                                            <td>{{ $p->name }}</td>
-                                            <td>{{ $p->description }}</td>
-                                            <td>{{ $p->stock }}</td>
-                                            <td>
-                                                <span class="badge {{ $p->state ? 'bg-success' : 'bg-danger' }}">
-                                                    {{ $p->activo ? 'Activo' : 'Inactivo' }}
-                                                </span>
-                                            </td>
-
-                                            <td>
-                                                <a href="{{ route('productos.edit', $p->id) }}"
-                                                    class="btn btn-sm btn-warning"><i
-                                                        class="fa-solid fa-pen me-2"></i>Editar</a>
-                                                <button type="button" class="btn btn-sm btn-danger"
-                                                    onclick="confirmarEliminacion({{ $p->id }})">
-                                                    <i class="fa-solid fa-trash me-1"></i> Eliminar
-                                                </button>
-                                                <form id="delete-form-{{ $p->id }}"
-                                                    action="{{ route('productos.destroy', $p->id) }}" method="POST"
-                                                    style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-
-                                            </td>
+                                            <th>SKU</th>
+                                            <th>Nombre</th>
+                                            <th>Descripción</th>
+                                            <th>Stock</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="tabla-productos">
+                                        @foreach($productos as $p)
+                                            <tr>
+                                                <td><strong>{{ $p->sku }}</strong></td>
+                                                <td>{{ $p->name }}</td>
+                                                <td>{{ $p->description }}</td>
+                                                <td>{{ $p->stock }}</td>
+                                                <td>
+                                                    <span class="badge {{ $p->state ? 'bg-success' : 'bg-danger' }}">
+                                                        {{ $p->activo ? 'Activo' : 'Inactivo' }}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <a href="{{ route('productos.edit', $p->id) }}"
+                                                        class="btn btn-sm btn-warning"><i class="fa-solid fa-pen me-2"></i><span
+                                                            class="d-none d-md-inline">Editar</span></a>
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        onclick="confirmarEliminacion({{ $p->id }})">
+                                                        <i class="fa-solid fa-trash me-1"></i> Eliminar
+                                                    </button>
+                                                    <form id="delete-form-{{ $p->id }}"
+                                                        action="{{ route('productos.destroy', $p->id) }}" method="POST"
+                                                        style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,26 +110,26 @@
                     let html = '';
                     data.forEach(p => {
                         html += `
-                                <tr>
-                                    <td><strong>${p.sku}</strong></td>
-                                    <td>${p.name}</td>
-                                    <td>${p.description}</td>
-                                    <td>${p.stock}</td>
-                                    <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
-                                    <td>
-                                        <a href="{{ route('productos.edit', $p->id) }}"
-                                                            class="btn btn-sm btn-warning"><i
-                                                                class="fa-solid fa-pen me-2"></i>Editar</a>
-                                                        <button type="button" class="btn btn-sm btn-danger"
-                                                            onclick="confirmarEliminacion({{ $p->id }})">
-                                                            <i class="fa-solid fa-trash me-1"></i> Eliminar
-                                                        </button>
-                                        <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="DELETE">
-                                        </form>
-                                    </td>
-                                </tr>`;
+                                        <tr>
+                                            <td><strong>${p.sku}</strong></td>
+                                            <td>${p.name}</td>
+                                            <td>${p.description}</td>
+                                            <td>${p.stock}</td>
+                                            <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+                                            <td>
+                                                <a href="{{ route('productos.edit', $p->id) }}"
+                                                                    class="btn btn-sm btn-warning"><i
+                                                                        class="fa-solid fa-pen me-2"></i>Editar</a>
+                                                                <button type="button" class="btn btn-sm btn-danger"
+                                                                    onclick="confirmarEliminacion({{ $p->id }})">
+                                                                    <i class="fa-solid fa-trash me-1"></i> Eliminar
+                                                                </button>
+                                                <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                </form>
+                                            </td>
+                                        </tr>`;
                     });
                     document.getElementById('tabla-productos').innerHTML = html;
                 });
