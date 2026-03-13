@@ -12,7 +12,7 @@ class ProductoController extends Controller
     // muestra el index
     public function index()
     {
-        // consultar productos por orden alfabetico del nombre
+        // consultar productos
         $productos = Producto::orderBy('name', 'asc')->get();
         return view('productos.index', compact('productos'));
     }

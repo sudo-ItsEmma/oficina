@@ -18,8 +18,6 @@
                                     placeholder="Buscar producto por nombre...">
                             </div>
                             <div class="table-responsive">
-
-
                                 <table class="table table-hover shadow-sm bg-white">
                                     <thead class="table-dark">
                                         <tr>
@@ -46,8 +44,8 @@
 
                                                 <td>
                                                     <a href="{{ route('productos.edit', $p->id) }}"
-                                                        class="btn btn-sm btn-warning"><i class="fa-solid fa-pen me-2"></i><span
-                                                            class="d-none d-md-inline">Editar</span></a>
+                                                        class="btn btn-sm btn-warning"><i
+                                                            class="fa-solid fa-pen me-2"></i>Editar</a>
                                                     <button type="button" class="btn btn-sm btn-danger"
                                                         onclick="confirmarEliminacion({{ $p->id }})">
                                                         <i class="fa-solid fa-trash me-1"></i> Eliminar
@@ -58,7 +56,6 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -119,31 +116,24 @@
                     let html = '';
                     data.forEach(p => {
                         html += `
-                                            <tr>
-                                                <td><strong>${p.sku}</strong></td>
-                                                <td>${p.name}</td>
-                                                <td>${p.description}</td>
-                                                <td>${p.stock}</td>
-                                                <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
-                                                <td>
-                                                    <a href="{{ route('productos.edit', $p->id) }}"
-                                                                        class="btn btn-sm btn-warning"><i
-                                                                            class="fa-solid fa-pen me-2"></i>Editar</a>
-                                                                    <button type="button" class="btn btn-sm btn-danger"
-                                                                        onclick="confirmarEliminacion({{ $p->id }})">
-                                                                        <i class="fa-solid fa-trash me-1"></i> Eliminar
-                                                                    </button>
-                                                    <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                    </form>
-                                                </td>
-                                            </tr>`;
+                                <tr>
+                                    <td><strong>${p.sku}</strong></td>
+                                    <td>${p.name}</td>
+                                    <td>${p.description}</td>
+                                    <td>${p.stock}</td>
+                                    <td><span class="badge ${p.state ? 'bg-success' : 'bg-danger'}">${p.activo ? 'Activo' : 'Inactivo'}</span></td>
+                                    <td>
+                                        <a href="/productos/${p.id}/edit" class="btn btn-sm btn-warning">Editar</a>
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(${p.id})">Eliminar</button>
+                                        <form id="delete-form-${p.id}" action="/productos/${p.id}" method="POST" style="display: none;">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="DELETE">
+                                        </form>
+                                    </td>
+                                </tr>`;
                     });
                     document.getElementById('tabla-productos').innerHTML = html;
                 });
         });
-
-        
     </script>
 @endsection
